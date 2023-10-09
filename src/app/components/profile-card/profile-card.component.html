@@ -1,0 +1,17 @@
+<a [routerLink]="['/profiles', profile.id]" *ngIf="profile">
+  <div class="profile-card">
+    <div class="user-image"><img [src]="profile.image" alt="" /></div>
+    <div class="user-details">
+      <h5 class="user-name">{{ profile.name }}</h5>
+      <p class="user-mail">{{ profile.email }}</p>
+      <p class="user-phone">{{ profile.phone }}</p>
+      <p class="user-bio">
+        {{
+          profile.bio.length > 70
+            ? profile.bio.slice(0, 70) + "..."
+            : profile.bio
+        }}
+      </p>
+    </div>
+  </div>
+</a>

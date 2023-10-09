@@ -1,0 +1,27 @@
+.profiles-container {
+  min-height: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 20px 0px;
+  padding: 25px 15px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+button {
+  background: #f58220;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 15px 40px;
+  border-radius: 5px;
+}

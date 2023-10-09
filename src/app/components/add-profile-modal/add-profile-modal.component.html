@@ -1,0 +1,144 @@
+<div class="modal">
+  <div class="modal-wrapper">
+    <div class="modal-body">
+      <div
+        [ngStyle]="{
+          display: 'flex',
+          'align-items': 'center',
+          'justify-content': 'space-between'
+        }"
+      >
+        <h3 [ngStyle]="{ 'text-align': 'center' }">Add New Profile</h3>
+
+        <div (click)="closeAddModal()" [ngStyle]="{ cursor: 'pointer' }">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </div>
+      </div>
+      <p class="sub-heading">Kindly provide the informations below!</p>
+
+      <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+        <div class="form-control">
+          <label for="name">Name<span>*</span></label>
+          <input
+            type="text"
+            id="name"
+            #name="ngModel"
+            [ngClass]="{ invalid: name.invalid }"
+            [(ngModel)]="profileModel.name"
+            name="name"
+            placeholder="Akinwobi Babatunde"
+            required
+          />
+          <small
+            [ngStyle]="{ color: 'red' }"
+            *ngIf="name.invalid && name.touched"
+            >Name field is required</small
+          >
+        </div>
+        <div class="form-control">
+          <label for="email">Email<span>*</span></label>
+          <input
+            type="text"
+            id="email"
+            #email="ngModel"
+            [(ngModel)]="profileModel.email"
+            name="email"
+            placeholder="babatundehezekiah7@gmail.com"
+            required
+          />
+          <small
+            [ngStyle]="{ color: 'red' }"
+            *ngIf="email.invalid && email.touched"
+            >Email field is required</small
+          >
+        </div>
+        <div class="form-control">
+          <label for="phone">Phone Number<span>*</span></label>
+          <input
+            type="tel"
+            id="phone"
+            pattern="^\d{11}$"
+            #phone="ngModel"
+            [(ngModel)]="profileModel.phone"
+            name="phone"
+            placeholder="07080870446"
+            required
+          />
+
+          <div *ngIf="phone.errors && phone.invalid && phone.touched">
+            <small [ngStyle]="{ color: 'red' }" *ngIf="phone.errors['required']"
+              >Phone number field is required</small
+            >
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="phone.errors && phone.errors['pattern']"
+              >Phone number must be atleast 11 digits</small
+            >
+          </div>
+        </div>
+        <div class="form-control">
+          <label for="bio">Bio<span>*</span></label>
+          <textarea
+            #bio="ngModel"
+            [(ngModel)]="profileModel.bio"
+            [ngStyle]="{
+              width: '100%',
+              outline: 'none',
+              padding: '10px',
+              'border-radius': '7px',
+              resize: 'none'
+            }"
+            rows="5"
+            id="bio"
+            name="bio"
+            required
+          ></textarea>
+          <small [ngStyle]="{ color: 'red' }" *ngIf="bio.invalid && bio.touched"
+            >Bio field is required</small
+          >
+        </div>
+        <div class="form-image" [ngStyle]="{ 'margin-bottom': '20px' }">
+          <label for="image">Image<span>*</span></label>
+          <div class="image-input">
+            <input
+              type="file"
+              (change)="uploadImage($event)"
+              id="image"
+              title=""
+              name="image"
+            />
+            <div *ngIf="profileModel.image !== ''" class="image-box">
+              <img
+                [ngStyle]="{
+                  width: '100%',
+                  height: '100%',
+                  'border-radius': '50%',
+                  'object-fit': 'cover'
+                }"
+                [src]="profileModel.image"
+                alt=""
+              />
+            </div>
+            <p
+              *ngIf="profileModel.image === ''"
+              [ngStyle]="{ 'font-size': '12px' }"
+            >
+              Upload image here.
+            </p>
+          </div>
+        </div>
+
+        <button
+          [ngClass]="{
+            disabled: profileForm.form.invalid || profileModel.image === ''
+          }"
+          [disabled]="profileForm.form.invalid || profileModel.image === ''"
+          class="submit-btn"
+          type="submit"
+        >
+          SAVE
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

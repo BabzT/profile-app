@@ -1,0 +1,23 @@
+<div class="page-wrapper" *ngIf="profile">
+  <div
+    [ngStyle]="{
+      'margin-bottom': '30px',
+      display: 'flex',
+      'align-items': 'center'
+    }"
+  >
+    <a [routerLink]="['/profiles']"><fa-icon [icon]="faArrowLeft"></fa-icon></a>
+    <h2 [ngStyle]="{ 'margin-left': '5px' }">About {{ profile.name }}</h2>
+  </div>
+  <div class="profile-card">
+    <div class="user-image"><img [src]="profile.image" alt="" /></div>
+    <div class="user-details">
+      <h4 class="user-name">{{ profile.name }}</h4>
+      <p class="user-mail">{{ profile.email }}</p>
+      <p class="user-phone">{{ profile.phone }}</p>
+      <p class="user-bio">
+        {{ profile.bio }}
+      </p>
+    </div>
+  </div>
+</div>

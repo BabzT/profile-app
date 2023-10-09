@@ -1,0 +1,25 @@
+<app-add-profile-modal
+  *ngIf="addprofilemodal"
+  (closeModal)="addNew()"
+></app-add-profile-modal>
+<div class="page-wrapper">
+  <div [ngStyle]="{ display: 'flex', 'justify-content': 'space-between' }">
+    <h2>My Profiles</h2>
+    <div class="btn-wrapper">
+      <button (click)="addNew()" type="button">ADD NEW</button>
+    </div>
+  </div>
+  <div class="profiles-container">
+    <app-profile-card
+      [ngStyle]="{ width: '33%' }"
+      *ngFor="let profile of profiles"
+      [profile]="profile"
+    ></app-profile-card>
+    <p
+      [ngStyle]="{ margin: '90px auto' }"
+      *ngIf="profiles && profiles.length === 0"
+    >
+      No profile available
+    </p>
+  </div>
+</div>
