@@ -8,14 +8,14 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class ProfilesService {
   profiles: Profile[] = [
-    // {
-    //   id: 1,
-    //   name: 'Akinwobi Babz',
-    //   email: 'oluwadunrebecca@gmail.com',
-    //   phone: 7056869439,
-    //   image: '',
-    //   bio: 'I want this job because it is a position that excites me and is an excellent fit for my qualifications. The company is growing and I see many opportunities to diversify my skills in this position.I researched your company before applying and I’m attracted to your culture and how you support your workforce to be the best they can be. If I am successful, I want to build my career with your company and become a valuable asset to your team.',
-    // },
+    {
+      id: 1,
+      name: 'Akinwobi Babz',
+      email: 'oluwadunrebecca@gmail.com',
+      phone: 7056869439,
+      image: '',
+      bio: 'I want this job because it is a position that excites me and is an excellent fit for my qualifications. The company is growing and I see many opportunities to diversify my skills in this position.I researched your company before applying and I’m attracted to your culture and how you support your workforce to be the best they can be. If I am successful, I want to build my career with your company and become a valuable asset to your team.',
+    },
   ];
 
   constructor() {}
