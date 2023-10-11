@@ -16,41 +16,70 @@
       </div>
       <p class="sub-heading">Kindly provide the informations below!</p>
 
-      <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+      <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
         <div class="form-control">
           <label for="name">Name<span>*</span></label>
           <input
             type="text"
             id="name"
-            #name="ngModel"
-            [ngClass]="{ invalid: name.invalid }"
-            [(ngModel)]="profileModel.name"
+            formControlName="name"
             name="name"
             placeholder="Akinwobi Babatunde"
             required
           />
-          <small
-            [ngStyle]="{ color: 'red' }"
-            *ngIf="name.invalid && name.touched"
-            >Name field is required</small
-          >
+          <div *ngIf="f.name?.invalid && f.name?.touched">
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="f.name?.errors?.['required']"
+              >Name field is required</small
+            >
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="f.name?.errors?.['forbiddenCharacter']"
+              >{{f.name.errors?.['forbiddenCharacter'].value}} name is not
+              allowed</small
+            >
+          </div>
         </div>
         <div class="form-control">
           <label for="email">Email<span>*</span></label>
+          <button type="button" (click)="addAlternateEmails()">
+            Add e-mail
+          </button>
           <input
             type="text"
             id="email"
-            #email="ngModel"
-            [(ngModel)]="profileModel.email"
+            formControlName="email"
             name="email"
             placeholder="babatundehezekiah7@gmail.com"
-            required
           />
+          <!-- <div *ngIf="f.email?.invalid && f.email?.touched"> -->
           <small
             [ngStyle]="{ color: 'red' }"
-            *ngIf="email.invalid && email.touched"
+            *ngIf="f.email?.invalid && f.email?.touched"
             >Email field is required</small
           >
+          <!-- <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="f.email?.errors?.['invalidEmailFormat']"
+              >Enter a valid email</small
+            > -->
+          <!-- </div> -->
+        </div>
+        <div
+          formArrayName="alternateEmails"
+          class="form-control"
+          *ngFor="let email of alternatemails.controls; let i = index"
+        >
+          <input
+            type="text"
+            [formControlName]="i"
+            placeholder="babatundehezekiah7@gmail.com"
+          />
+        </div>
+        <div [ngStyle]="{ 'font-size': '12px', margin: '5px 0' }">
+          <input type="checkbox" name="subscribe" formControlName="subscribe" />
+          <label for="subscribe">Send me promotional offers</label>
         </div>
         <div class="form-control">
           <label for="phone">Phone Number<span>*</span></label>
@@ -58,14 +87,13 @@
             type="tel"
             id="phone"
             pattern="^\d{11}$"
-            #phone="ngModel"
-            [(ngModel)]="profileModel.phone"
+            formControlName="phone"
             name="phone"
             placeholder="07080870446"
             required
           />
 
-          <div *ngIf="phone.errors && phone.invalid && phone.touched">
+          <!-- <div *ngIf="phone.errors && phone.invalid && phone.touched">
             <small [ngStyle]="{ color: 'red' }" *ngIf="phone.errors['required']"
               >Phone number field is required</small
             >
@@ -74,13 +102,55 @@
               *ngIf="phone.errors && phone.errors['pattern']"
               >Phone number must be atleast 11 digits</small
             >
+          </div> -->
+        </div>
+        <div class="form-control">
+          <label for="password">Password<span>*</span></label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            name="password"
+            placeholder="*******"
+            required
+          />
+
+          <div *ngIf="f.password.invalid && f.password.touched">
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="f.password?.errors?.['required']"
+              >Password field is required</small
+            >
+          </div>
+        </div>
+        <div class="form-control">
+          <label for="confirmpassword">Confirm Password<span>*</span></label>
+          <input
+            type="password"
+            id="confirmpassword"
+            formControlName="confirmPassword"
+            name="confirmpassword"
+            placeholder="*******"
+            required
+          />
+
+          <div *ngIf="f.confirmPassword.touched">
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="f.confirmPassword.errors?.['required']"
+              >Confirm password field is required</small
+            >
+            <small
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="profileForm.errors?.['misMatch']"
+              >Passwords do not match</small
+            >
           </div>
         </div>
         <div class="form-control">
           <label for="bio">Bio<span>*</span></label>
           <textarea
-            #bio="ngModel"
-            [(ngModel)]="profileModel.bio"
+            formControlName="bio"
             [ngStyle]="{
               width: '100%',
               outline: 'none',
@@ -93,9 +163,9 @@
             name="bio"
             required
           ></textarea>
-          <small [ngStyle]="{ color: 'red' }" *ngIf="bio.invalid && bio.touched"
+          <!-- <small [ngStyle]="{ color: 'red' }" *ngIf="bio.invalid && bio.touched"
             >Bio field is required</small
-          >
+          > -->
         </div>
         <div class="form-image" [ngStyle]="{ 'margin-bottom': '20px' }">
           <label for="image">Image<span>*</span></label>
@@ -108,7 +178,7 @@
               name="image"
               accept=".jpeg, .jpg, .png"
             />
-            <div *ngIf="profileModel.image !== ''" class="image-box">
+            <div *ngIf="image !== ''" class="image-box">
               <img
                 [ngStyle]="{
                   width: '100%',
@@ -116,29 +186,17 @@
                   'border-radius': '50%',
                   'object-fit': 'cover'
                 }"
-                [src]="profileModel.image"
+                [src]="image"
                 alt=""
               />
             </div>
-            <p
-              *ngIf="profileModel.image === ''"
-              [ngStyle]="{ 'font-size': '12px' }"
-            >
+            <p *ngIf="image === ''" [ngStyle]="{ 'font-size': '12px' }">
               Upload image here.
             </p>
           </div>
         </div>
 
-        <button
-          [ngClass]="{
-            disabled: profileForm.form.invalid || profileModel.image === ''
-          }"
-          [disabled]="profileForm.form.invalid || profileModel.image === ''"
-          class="submit-btn"
-          type="submit"
-        >
-          SAVE
-        </button>
+        <button class="submit-btn" type="submit">SAVE</button>
       </form>
     </div>
   </div>
